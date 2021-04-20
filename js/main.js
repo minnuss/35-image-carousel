@@ -1,48 +1,53 @@
-const imageContainer = document.querySelector('.image-container');
-const images = document.querySelectorAll('.image-container img')
-const btnPrev = document.querySelector('.left');
-const btnNext = document.querySelector('.rigth');
+// all code is in window.onload because of dynamic width value of image
+window.onload = () => {
 
-// keep track of active img index
-let activeIdx = 0
+    const imageContainer = document.querySelector('.image-container');
+    const images = document.querySelectorAll('.image-container img')
+    const btnPrev = document.querySelector('.left');
+    const btnNext = document.querySelector('.rigth');
 
-// get dynamic width of image
-let imageWidth = images[0].getBoundingClientRect().width
-// console.log(imageWidth)
+    // keep track of active img index
+    let activeIdx = 0
 
-let interval = setInterval(() => {
-    run()
-}, 2000);
+    // get dynamic width of image
+    let imageWidth = images[0].getBoundingClientRect().width
+    console.log(imageWidth)
 
-function run() {
-    activeIdx++
-    changeImage()
-}
+    let interval = setInterval(() => {
+        run()
+    }, 2000);
 
-function changeImage() {
-    if (activeIdx > images.length - 1) {
-        activeIdx = 0
-    } else if (activeIdx < 0) {
-        activeIdx = images.length - 1
+    function run() {
+        activeIdx++
+        changeImage()
     }
-    // move every image by imageWidth * activeIdx
-    imageContainer.style.transform = `translateX(${-activeIdx * imageWidth}px)`
-}
 
-// if prev or next buttons are pressed, pause the interval, reset it
-function resetInterval() {
-    clearInterval(interval)
-    interval = setInterval(run, 2000)
-}
+    function changeImage() {
+        if (activeIdx > images.length - 1) {
+            activeIdx = 0
+        } else if (activeIdx < 0) {
+            activeIdx = images.length - 1
+        }
+        // move every image by imageWidth * activeIdx
+        imageContainer.style.transform = `translateX(${-activeIdx * imageWidth}px)`
+    }
 
-btnPrev.addEventListener('click', () => {
-    activeIdx--
-    changeImage()
-    resetInterval()
-})
+    // if prev or next buttons are pressed, pause the interval, reset it
+    function resetInterval() {
+        clearInterval(interval)
+        interval = setInterval(run, 2000)
+    }
 
-btnNext.addEventListener('click', () => {
-    activeIdx++
-    changeImage()
-    resetInterval()
-})
+    btnPrev.addEventListener('click', () => {
+        activeIdx--
+        changeImage()
+        resetInterval()
+    })
+
+    btnNext.addEventListener('click', () => {
+        activeIdx++
+        changeImage()
+        resetInterval()
+    })
+};
+
